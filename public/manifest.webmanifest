@@ -1,0 +1,6 @@
+{
+ "id":"/","name":"Daybell — Calendar & Reminders","short_name":"Daybell",
+ "start_url":"/","scope":"/","display":"standalone","background_color":"#f3f5f7","theme_color":"#172c40",
+ "description":"A private calendar with persistent ringing reminders.",
+ "icons":[{"src":"/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},{"src":"/icon-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]
+}
