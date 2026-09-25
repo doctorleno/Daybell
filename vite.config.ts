@@ -5,7 +5,7 @@ import { readExecutionProfile } from "./scripts/execution-profile.mjs";
 import { sites } from "./build/sites-vite-plugin";
 
 const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
-  "0c73fcdb-dbc8-4b35-84ce-b2f252f183f7";
+  "00000000-0000-4000-8000-000000000000";
 
 const { d1, r2 } = hostingConfig;
 
@@ -57,7 +57,7 @@ export default defineConfig(async () => {
     },
     plugins: [
       vinext(),
-      sites({ mockAuth: !managedLinux }),
+      sites({ mockAuth: false }),
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
         inspectorPort: false,
@@ -66,3 +66,4 @@ export default defineConfig(async () => {
     ],
   };
 });
+

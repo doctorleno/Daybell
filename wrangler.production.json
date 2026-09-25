@@ -1,0 +1,32 @@
+{
+  "name": "daybell",
+  "account_id": "7f877c6c2b918d3c933c37055436f63a",
+  "main": "dist/server/index.js",
+  "compatibility_date": "2026-05-15",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "no_bundle": true,
+  "rules": [
+    {
+      "type": "ESModule",
+      "globs": [
+        "**/*.js",
+        "**/*.mjs"
+      ]
+    }
+  ],
+  "assets": {
+    "directory": "dist/client"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "daybell-db",
+      "database_id": "0c73fcdb-dbc8-4b35-84ce-b2f252f183f7"
+    }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}

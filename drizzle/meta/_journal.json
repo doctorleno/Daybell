@@ -15,6 +15,13 @@
       "when": 1790346662329,
       "tag": "0001_special_rick_jones",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1790354948591,
+      "tag": "0002_fluffy_jocasta",
+      "breakpoints": true
     }
   ]
 }

@@ -127,3 +127,10 @@ main { padding-top:12px; }
 .topbar .outline{margin-left:0}.topbar .outline:first-of-type{margin-left:auto}
 .alarm{border-width:3px}.alarm .primary{font-size:18px;min-height:50px}
 @media(max-width:600px){.tagline{display:none}.topbar{gap:8px}.topbar .outline{padding:8px;font-size:12px}.brand{font-size:22px}.brandmark{width:30px;height:30px}.signin-card{padding:30px}.signin-card h1{font-size:36px}}
+
+.authform{display:grid;gap:16px}.authform label{display:grid;gap:7px;font-size:14px}
+.authform input,.signin-card textarea{width:100%;padding:12px;border-radius:8px;background:white;color:#172c40;border:1px solid #cbd3dd;font-size:16px}
+.authform small{color:#cad5df}.authlinks{display:flex;justify-content:space-between;gap:18px;margin-top:25px}
+.authlinks button{background:none;border:0;color:#e3f39e;font-size:14px;text-decoration:underline}
+.signout-button{background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;white-space:nowrap}
+.signin-card textarea{margin-bottom:20px;font-family:monospace}

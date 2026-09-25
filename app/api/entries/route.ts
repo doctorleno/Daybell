@@ -1,24 +1,16 @@
 import {database} from "@/db/raw";
 import {sql} from "@/db/entry-queries";
-import {getChatGPTUser} from "@/app/chatgpt-auth";
-import {env} from "cloudflare:workers";
+import {getCurrentAccount,requireOrigin,renewSession} from "@/lib/auth";
+
 import {z} from "zod";
 const entry=z.object({id:z.string().uuid().optional(),title:z.string().trim().min(1).max(160),kind:z.enum(["task","event"]),starts:z.string().datetime(),minutes:z.number().int().min(0).max(10080),sound:z.enum(["Chime","Marimba","Bell","Silent"]),notes:z.string().max(4000),done:z.union([z.literal(0),z.literal(1)])});
 const json=(data:unknown,status=200)=>Response.json(data,{status,headers:{"Cache-Control":"no-store, private","Vary":"Cookie"}});
-async function currentUser(){
- const user=await getChatGPTUser();
- if(user&&env.LEGACY_OWNER_EMAIL&&user.email.toLowerCase()===env.LEGACY_OWNER_EMAIL.toLowerCase())
-  await database().prepare(sql.claim).bind(user.userId).run();
- return user;
-}
-function checkOrigin(req:Request){
- const origin=req.headers.get("Origin");
- return !origin||origin===new URL(req.url).origin;
-}
+const currentUser=getCurrentAccount;
+const checkOrigin=requireOrigin;
 function fail(e:unknown){console.error(e);return json({error:"Could not access your planner. Please try again."},503);}
-export async function GET(){try{
+export async function GET(req:Request){try{
  const user=await currentUser();if(!user)return json({error:"Please sign in to view your calendar."},401);
- const {results}=await database().prepare(sql.list).bind(user.userId).all();const response=json(results);response.headers.set("X-Daybell-Account",user.userId);return response;
+ const {results}=await database().prepare(sql.list).bind(user.userId).all();const response=json(results);response.headers.set("X-Daybell-Account",user.userId);return await renewSession(req,response);
 }catch(e){return fail(e);}}
 export async function POST(req:Request){try{
  if(!checkOrigin(req))return json({error:"Request origin not allowed."},403);
@@ -42,4 +34,5 @@ export async function DELETE(req:Request){try{
  const result=await database().prepare(sql.remove).bind(id,user.userId).run();
  return result.meta.changes?json({ok:true}):json({error:"Entry not found."},404);
 }catch(e){return fail(e);}}
+
 
