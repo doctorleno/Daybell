@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import test from 'node:test';
+import {expandEntries,scheduledInstant,recurrenceSchema} from '../lib/recurrence.ts';
+const rule=(extra={})=>({frequency:'weekly',interval:1,weekdays:[1,3,5],until:null,timezone:'America/New_York',...extra});
+const entry=(r,start='2026-03-02T14:00:00Z')=>({id:'a',starts:start,done:0,recurrence:r});
+const expand=(e,from='2026-03-01',to='2026-03-16')=>expandEntries([e],new Date(from),new Date(to));
+test('selected weekdays preserve 9am across daylight saving',()=>{const list=expand(entry(rule()));assert.deepEqual(list.map(e=>e.occurrence),['2026-03-02','2026-03-04','2026-03-06','2026-03-09','2026-03-11','2026-03-13']);assert.equal(list[0].starts,'2026-03-02T14:00:00Z');assert.equal(list[3].starts,'2026-03-09T13:00:00Z');});
+test('every second week and inclusive end date',()=>{const list=expand(entry(rule({interval:2,until:'2026-03-16'})), '2026-03-01','2026-04-01');assert.deepEqual(list.map(e=>e.occurrence),['2026-03-02','2026-03-04','2026-03-06','2026-03-16']);});
+test('monthly 31st skips nonexistent dates',()=>{const list=expand(entry(rule({frequency:'monthly'}),'2026-01-31T14:00:00Z'),'2026-01-01','2026-05-01');assert.deepEqual(list.map(e=>e.occurrence),['2026-01-31','2026-03-31']);});
+test('completing one occurrence leaves future dates open',()=>{const list=expand({...entry(rule()),completed:['2026-03-04']});assert.equal(list.find(x=>x.occurrence==='2026-03-04').done,1);assert.equal(list.find(x=>x.occurrence==='2026-03-06').done,0);});
+test('daily interval, timezone midnight and leap year',()=>{const list=expand(entry(rule({frequency:'daily',interval:2,timezone:'Asia/Tokyo'}),'2028-02-27T15:15:00Z'),'2028-02-27','2028-03-04');assert.deepEqual(list.map(e=>e.occurrence),['2028-02-28','2028-03-01','2028-03-03']);});
+test('nonexistent spring time moves forward; fall uses first matching time',()=>{assert.equal(scheduledInstant('2026-03-08','02:30','America/New_York'),'2026-03-08T07:30:00Z');assert.equal(scheduledInstant('2026-11-01','01:30','America/New_York'),'2026-11-01T05:30:00Z');});
+test('reject invalid weekday rules and timezone',()=>{assert.equal(recurrenceSchema.safeParse(rule({weekdays:[]})).success,false);assert.equal(recurrenceSchema.safeParse(rule({timezone:'bad/zone'})).success,false);assert.equal(recurrenceSchema.safeParse(rule({until:'2026-02-30'})).success,false);});

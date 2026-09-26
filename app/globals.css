@@ -134,3 +134,7 @@ main { padding-top:12px; }
 .authlinks button{background:none;border:0;color:#e3f39e;font-size:14px;text-decoration:underline}
 .signout-button{background:none;border:0;color:inherit;text-decoration:underline;cursor:pointer;white-space:nowrap}
 .signin-card textarea{margin-bottom:20px;font-family:monospace}
+
+.repeat-fields{border:1px solid #cbd3dd;border-radius:12px;padding:14px;display:grid;gap:12px}.repeat-fields label{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.repeat-fields input,.repeat-fields select{padding:8px;border:1px solid #aab6c2;border-radius:6px;background:white;color:#172c40}.repeat-fields input[type=number]{width:75px}.repeat-days{display:flex;gap:5px;flex-wrap:wrap}.repeat-days button{padding:8px;border:1px solid #aab6c2;border-radius:7px}.repeat-days button[aria-pressed=true]{background:#172c40;color:#e3f39e}.repeat-fields small{line-height:1.5}
+
+.admin-dashboard{max-width:1100px}.admin-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}.admin-cards article{padding:22px}.admin-cards strong{display:block;font-size:40px}.admin-details{padding:24px}.admin-details p{margin-bottom:12px}.admin-details table{width:100%;border-collapse:collapse;margin-top:24px}.admin-details th,.admin-details td{padding:10px;text-align:left;border-bottom:1px solid #dde3e9}@media(max-width:650px){.admin-cards{grid-template-columns:repeat(2,1fr)}.admin-details{padding:12px;font-size:13px}}
