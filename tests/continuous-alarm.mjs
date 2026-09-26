@@ -14,7 +14,7 @@ class Context{
 }
 const ringing={current:null},ringToken={current:0},audio={current:null},notices=[];
 let active=[1];
-const api=new Function("ringing","ringToken","audio","AudioContext","setNotice","setActive",js+";return {startRinging,stopRinging};")(ringing,ringToken,audio,Context,x=>notices.push(x),x=>active=x);
+const api=new Function("ringing","ringToken","audio","AudioContext","setNotice","setActive","customPlayer","previewPlayer","accountId",js+";return {startRinging,stopRinging};")(ringing,ringToken,audio,Context,x=>notices.push(x),x=>active=x,{current:{stop(){},async play(){return false;}}},{current:{stop(){}}},"test-account");
 await api.startRinging("Chime");assert.equal(nodes.length,1);assert.equal(nodes[0].loop,true);assert.equal(nodes[0].started,1);
 await api.startRinging("Bell");assert.equal(nodes.length,1);
 api.stopRinging();assert.equal(nodes[0].stopped,1);assert.deepEqual(active,[]);

@@ -4,7 +4,7 @@ import {getCurrentAccount,requireOrigin,renewSession} from "@/lib/auth";
 
 import {recurrenceSchema,matchesDate,localFields} from "@/lib/recurrence";
 import {z} from "zod";
-const entry=z.object({id:z.string().uuid().optional(),title:z.string().trim().min(1).max(160),kind:z.enum(["task","event"]),starts:z.string().datetime(),minutes:z.number().int().min(0).max(10080),sound:z.enum(["Chime","Marimba","Bell","Silent"]),notes:z.string().max(4000),done:z.union([z.literal(0),z.literal(1)]),recurrence:recurrenceSchema.nullable().optional()});
+const entry=z.object({id:z.string().uuid().optional(),title:z.string().trim().min(1).max(160),kind:z.enum(["task","event"]),starts:z.string().datetime(),minutes:z.number().int().min(0).max(10080),sound:z.enum(["Chime","Marimba","Bell","My audio","Silent"]),notes:z.string().max(4000),done:z.union([z.literal(0),z.literal(1)]),recurrence:recurrenceSchema.nullable().optional()});
 const json=(data:unknown,status=200)=>Response.json(data,{status,headers:{"Cache-Control":"no-store, private","Vary":"Cookie"}});
 const currentUser=getCurrentAccount;
 const checkOrigin=requireOrigin;
